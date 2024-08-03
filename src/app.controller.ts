@@ -16,14 +16,9 @@ type Post = {
   likeCount: number;
   commentCount: number;
 };
-@Controller()
+@Controller('post')
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
   @Get()
   getPost(): Post {
     return {
