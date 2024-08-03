@@ -20,3 +20,5 @@ describe('AppController', () => {
     });
   });
 });
+
+// 0804) spec.ts 는 테스트를 하는 파일
