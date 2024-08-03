@@ -6,5 +6,3 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
-
-// 0804) nest js 를 시작하는 파일
