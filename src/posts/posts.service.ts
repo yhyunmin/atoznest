@@ -35,7 +35,7 @@ let posts: PostModel[] = [
   },
 ];
 
-@Injectable()
+@Injectable() // 프로바이더로 사용할수있는 어노테이션
 export class PostsService {
   getAllPosts() {
     return posts;
