@@ -73,8 +73,18 @@ export class PostsService {
     return await this.postsRepository.save(post);
   }
 
-  updatePost(postId: number, author?: string, title?: string, content?: string) {
-    const post = posts.find(post => post.id === postId);
+  async updatePost(postId: number, author?: string, title?: string, content?: string) {
+    // save의 기능
+    // 1) 만약에 데이터가 존재하지 않는다면 ( id 기준) 새로 생성,
+    // 2) 만약에 데이터가 존재한다면 (같은 id의 값이 존재한다면) 존재하던 값을 업데이트한다.
+
+    // const post = posts.find(post => post.id === postId);
+
+    const post = await this.postsRepository.findOne({
+      where: {
+        id: postId,
+      },
+    });
     if (!post) {
       throw new NotFoundException();
     }
@@ -87,18 +97,26 @@ export class PostsService {
     if (content) {
       post.content = content;
     }
-    // 포스트리스트에 id 비교하여 수정된 값만 변경, 다른경우는 그대로
-    // posts = posts.map(prev => (prev.id === +id ? post : prev));
-    return post;
+    const newPost = await this.postsRepository.save(post);
+    return newPost;
   }
-  deletePost(postId: number) {
+  async deletePost(postId: number) {
     // id값이 다른거만 새로 posts 에 등록 ( id는 삭제 )
-    const post = posts.find(post => post.id === +postId);
+    // const post = posts.find(post => post.id === +postId);
+    // if (!post) {
+    //   throw new NotFoundException();
+    // }
+    // posts = posts.filter(post => post.id !== +postId);
+
+    const post = await this.postsRepository.findOne({
+      where: {
+        id: postId,
+      },
+    });
     if (!post) {
       throw new NotFoundException();
     }
-
-    posts = posts.filter(post => post.id !== +postId);
+    await this.postsRepository.delete(postId);
     return postId;
   }
 }
