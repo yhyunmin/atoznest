@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { PostsModel } from './entities/posts.entitiy';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PostsModule } from './posts.module';
 
 export type PostModel = {
   id: number;
@@ -48,26 +47,30 @@ export class PostsService {
   async getAllPosts() {
     return this.postsRepository.find();
   }
-  getPostById(id: number) {
-    const post = posts.find(post => post.id === +id);
+  async getPostById(id: number) {
+    const post = await this.postsRepository.findOne({
+      where: {
+        id,
+      },
+    });
     if (!post) {
-      throw new NotFoundException(); // notfoundException() = statuscode: 404 message:notfound를 던져줌
-      // nest → docs-overview-built-in exception→ 에서 골라쓰면됨
+      throw new NotFoundException();
     }
     return post;
   }
-  createPost(author: string, title: string, content: string) {
-    const post: PostModel = {
-      id: posts[posts.length - 1].id + 1,
+  async createPost(author: string, title: string, content: string) {
+    // 1) create -> 저장할 객체를 생성한다.
+    // 2) save -> 객체를 저장한다. (create 메서드로 생성한 객체로)
+
+    const post = this.postsRepository.create({
       author,
       title,
       content,
       likeCount: 0,
       commentCount: 0,
-    };
-    posts = [...posts, post];
+    });
 
-    return post;
+    return await this.postsRepository.save(post);
   }
 
   updatePost(postId: number, author?: string, title?: string, content?: string) {
