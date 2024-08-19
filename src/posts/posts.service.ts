@@ -2,15 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { PostsModel } from './entities/posts.entitiy';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TagModel } from '../entity/tag.entity';
 
 @Injectable() // 프로바이더로 사용할수있는 어노테이션
 export class PostsService {
   constructor(
     @InjectRepository(PostsModel)
     private readonly postsRepository: Repository<PostsModel>,
+    @InjectRepository(TagModel)
+    private readonly tagsRepository: Repository<TagModel>,
   ) {}
   async getAllPosts() {
-    return this.postsRepository.find();
+    return this.postsRepository.find({
+      relations: ['tags'],
+    });
   }
   async getPostById(id: number) {
     const post = await this.postsRepository.findOne({
@@ -83,5 +88,32 @@ export class PostsService {
     }
     await this.postsRepository.delete(postId);
     return postId;
+  }
+
+  async createPostsTags() {
+    const post1 = await this.postsRepository.save({
+      title: 'tag test1 nestJS',
+    });
+    const post2 = await this.postsRepository.save({
+      title: 'tag test2',
+    });
+    const tag1 = await this.tagsRepository.save({
+      name: 'tag 1 javascript',
+      posts: [post1, post2],
+    });
+    const tag2 = await this.tagsRepository.save({
+      name: 'tag 2 typescript',
+      posts: [post1],
+    });
+    const post3 = await this.postsRepository.save({
+      title: 'post 3',
+      tags: [tag1, tag2],
+    });
+    return true;
+  }
+  getTags() {
+    return this.tagsRepository.find({
+      relations: ['posts'],
+    });
   }
 }

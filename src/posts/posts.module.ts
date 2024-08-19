@@ -3,6 +3,7 @@ import { PostsService } from './posts.service';
 import { PostsController } from './posts.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModel } from './entities/posts.entitiy';
+import { TagModel } from '../entity/tag.entity';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { PostsModel } from './entities/posts.entitiy';
     TypeOrmModule.forFeature([
       // 불러오고싶은 모델을 넣으면되ㅣㄴ다.
       PostsModel,
+      TagModel,
     ]),
   ],
   controllers: [PostsController],

@@ -43,4 +43,14 @@ export class PostsController {
   deletePost(@Param('id') id: string) {
     return this.postsService.deletePost(+id);
   }
+
+  @Get('tags')
+  getTags() {
+    return this.postsService.getTags();
+  }
+
+  @Post('tags')
+  createPostsTags() {
+    return this.postsService.createPostsTags();
+  }
 }
