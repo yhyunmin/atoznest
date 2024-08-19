@@ -31,7 +31,7 @@ import { TagModel } from './entity/tag.entity';
       ],
     }),
     UsersModule,
-    // PostsModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PostModel } from './post.entity';
-import { JoinTable } from 'typeorm';
 
 @Entity()
 export class TagModel {

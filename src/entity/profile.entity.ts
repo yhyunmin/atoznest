@@ -7,7 +7,6 @@ export class ProfileModel {
   @PrimaryGeneratedColumn()
   id: number;
   @OneToOne(() => UserModel, user => user.profile)
-  @JoinColumn()
   user: UserModel;
   @Column()
   profileImg: string;

@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryColumn,
@@ -67,7 +68,22 @@ export class UserModel {
   @Generated('uuid') //increment 1씩 올라감 uuid : 고유값 항상 colum 어노테이션과 사용해야 함.
   //"자동으로" 생성됨
   additionalId: string;
-  @OneToOne(() => ProfileModel, profile => profile.user)
+  @OneToOne(() => ProfileModel, profile => profile.user, {
+    //eager: find() 실행 할 때마다 항상 같이 가져올 relation, 기본값 false
+    eager: true,
+    //cascade: 저장할떄 relationId를 한번에 같이 저장 가능, 기본값 false
+    cascade: true,
+    // nullable: null 값 등록 가능 유무 false는 무조건 입력해야함
+    nullable: true,
+    // onDelete : 관계가 삭제 됐을 때
+    // 1) no action -> 아무것도 안함
+    // 2 ) cascade -> 참조하는 Row도 같이 삭제
+    // 3 ) set null -> 참조하는 Row에서 참조 id를 null로 변경
+    // 4 ) set default -> 기본 세팅으로 설정 (테이블의 기본 세팅)
+    // 5 ) restrict -> 참조하고 있는 row가 있는 경우 참조당하는 row 삭제 불가
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn()
   profile: ProfileModel;
 
   @OneToMany(() => PostModel, post => post.author)

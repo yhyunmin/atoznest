@@ -1,4 +1,4 @@
-import { Get, Injectable, Param, Patch, Post } from '@nestjs/common';
+import { Delete, Get, Injectable, Param, Patch, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserModel } from '../entity/user.entity';
@@ -16,7 +16,7 @@ export class UsersService {
   @Get() getUsers() {
     return this.usersRepository.find({
       // relations: { profile: true },
-      relations: ['profile', 'posts'],
+      // relations: ['profile', 'posts'], // 별성정 하지 않고 entity의 eager 옵션을통해 가져올수있다
     });
   }
 
@@ -38,14 +38,28 @@ export class UsersService {
 
   @Post()
   async createUserAndProfile(profileData: { email?: string; profileImg?: string }) {
-    const user = await this.usersRepository.save({
-      email: 'asdf@asdf.asdf' || profileData.email,
+    // cascade false 일경우 ;
+    // const user = await this.usersRepository.save({
+    //   email: 'asdf@asdf.asdf' || profileData.email,
+    // });
+    // const profile = await this.profilesRepository.save({
+    //   profileImg: 'asdf.jpg' || profileData.profileImg,
+    //   user,
+    // });
+    // return { user, profile };
+    // cascade 옵션 true일 경우
+    const data = await this.usersRepository.save({
+      email: 'cascadeTest@createuserAndprofile.e' || profileData.email,
+      profile: {
+        profileImg: 'caseCadetrueImg.jpg' || profileData.profileImg,
+      },
     });
-    const profile = await this.profilesRepository.save({
-      profileImg: 'asdf.jpg' || profileData.profileImg,
-      user,
-    });
-    return { user, profile };
+    return { data };
+  }
+
+  @Delete()
+  async deleteProfile(@Param('id') id: string) {
+    await this.profilesRepository.delete(+id);
   }
 
   @Post()
