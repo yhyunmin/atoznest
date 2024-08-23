@@ -26,4 +26,8 @@ export class UsersController {
   // async postCreateUserAndPosts() {
   //   return this.usersService.createUserAndPosts();
   // }
+  @Post('sample')
+  async postSample() {
+    return this.usersService.sample();
+  }
 }

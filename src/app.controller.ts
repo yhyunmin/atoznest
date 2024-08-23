@@ -1,5 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Repository } from 'typeorm';
+import { UserModel } from './entity/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller()
 export class AppController {

@@ -70,7 +70,7 @@ export class UserModel {
   additionalId: string;
   @OneToOne(() => ProfileModel, profile => profile.user, {
     //eager: find() 실행 할 때마다 항상 같이 가져올 relation, 기본값 false
-    eager: true,
+    eager: false,
     //cascade: 저장할떄 relationId를 한번에 같이 저장 가능, 기본값 false
     cascade: true,
     // nullable: null 값 등록 가능 유무 false는 무조건 입력해야함
@@ -88,4 +88,8 @@ export class UserModel {
 
   @OneToMany(() => PostModel, post => post.author)
   posts: PostModel[];
+  @Column({
+    default: 0,
+  })
+  count: number;
 }
