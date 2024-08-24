@@ -12,23 +12,25 @@ export class PostsService {
 		// private readonly postsRepository: Repository<PostsModel>,
 	) {}
 	async getAllPosts() {
-		return this.postsRepository.find();
+		return this.postsRepository.find({
+			relations: ['author'], // author 붙은 usersModel 호출
+		});
 	}
-	// async getPostById(id: number) {
-	//   const post = await this.postsRepository.findOne({
-	//     where: {
-	//       id,
-	//     },
-	//   });
-	//   if (!post) {
-	//     throw new NotFoundException();
-	//   }
-	//   return post;
-	// }
+	async getPostById(id: number) {
+		const post = await this.postsRepository.findOne({
+			where: {
+				id,
+			},
+			relations: ['author'],
+		});
+		if (!post) {
+			throw new NotFoundException();
+		}
+		return post;
+	}
 	async createPost(authorId: number, title: string, content: string) {
 		// 1) create -> 저장할 객체를 생성한다.
 		// 2) save -> 객체를 저장한다. (create 메서드로 생성한 객체로)
-
 		const post = this.postsRepository.create({
 			author: {
 				id: authorId,
@@ -38,8 +40,8 @@ export class PostsService {
 			likeCount: 0,
 			commentCount: 0,
 		});
-
-		return await this.postsRepository.save(post);
+		await this.postsRepository.save(post);
+		return post;
 	}
 
 	async updatePost(postId: number, title?: string) {

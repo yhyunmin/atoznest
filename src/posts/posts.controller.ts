@@ -25,7 +25,7 @@ export class PostsController {
 
 	// POST /posts
 	@Post() postPost(@Body('authorId') authorId: number, @Body('title') title: string, @Body('content') content: string) {
-		this.postsService.createPost(authorId, title, content);
+		return this.postsService.createPost(authorId, title, content);
 	}
 
 	// PUT /posts/:id

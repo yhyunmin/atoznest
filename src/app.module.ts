@@ -17,11 +17,7 @@ import { PostsModel } from './posts/entities/posts.entity';
 			password: 'postgres', // database: 'postgres',
 			database: 'typeorm',
 			synchronize: true,
-			entities: [
-				UsersModel,
-				PostsModel,
-				// PostsModel
-			],
+			entities: [UsersModel, PostsModel],
 		}),
 		PostsModule,
 		UsersModule,
