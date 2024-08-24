@@ -19,4 +19,7 @@ export class UsersService {
     const newUser = await this.usersRepository.save(user);
     return newUser;
   }
+  async getAllUsers() {
+    return this.usersRepository.find();
+  }
 }
