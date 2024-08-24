@@ -3,12 +3,14 @@ import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModel } from './entity/user.entity';
-import { UsersModule } from './users/users.module';
-import { PostsModel } from './posts/entities/posts.entitiy';
+import { UserModule } from './user/user.module';
+
 import { PostsModule } from './posts/posts.module';
 import { ProfileModel } from './entity/profile.entity';
 import { PostModel } from './entity/post.entity';
 import { TagModel } from './entity/tag.entity';
+import { UsersModule } from './users/users.module';
+import { UsersModel } from './users/entities/users.entity';
 
 @Module({
   imports: [
@@ -26,12 +28,14 @@ import { TagModel } from './entity/tag.entity';
         ProfileModel,
         PostModel,
         TagModel,
+        UsersModel,
 
         // PostsModel
       ],
     }),
-    UsersModule,
+    UserModule,
     PostsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

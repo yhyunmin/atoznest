@@ -2,7 +2,7 @@ import { Module, Post } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PostsController } from './posts.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostsModel } from './entities/posts.entitiy';
+import { PostsModel } from './entities/posts.entity';
 import { TagModel } from '../entity/tag.entity';
 import { PostModel } from '../entity/post.entity';
 

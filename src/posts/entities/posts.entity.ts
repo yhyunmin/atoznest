@@ -6,8 +6,10 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 export class PostsModel {
   @PrimaryGeneratedColumn() // 프로퍼티를 Column 으로 만듬 PrimaryColumn
   id: number;
+
   @Column()
   author: string;
+
   @Column()
   title: string;
   @Column()
