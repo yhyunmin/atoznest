@@ -20,7 +20,7 @@ export class PostsController {
 	// Get /posts/:id
 	@Get(':id') // 다중 파라미터를 명시하기위해 param의 파라미터를 넣어준다.
 	getPost(@Param('id') id: string) {
-		return null;
+		return this.postsService.getPostById(+id);
 	}
 
 	// POST /posts
