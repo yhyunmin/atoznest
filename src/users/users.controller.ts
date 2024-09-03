@@ -9,9 +9,9 @@ export class UsersController {
 	getUsers() {
 		return this.usersService.getAllUsers();
 	}
-	@Post()
-	postUser(@Body('nickname') nickname: string, @Body('email') email: string, @Body('password') password: string) {
-		//  (08.25) 추후 body 를 클래스로 validate 하는 과정이있음
-		return this.usersService.createUser({ nickname, email, password });
-	}
+	// @Post()
+	// postUser(@Body('nickname') nickname: string, @Body('email') email: string, @Body('password') password: string) {
+	// 	//  (08.25) 추후 body 를 클래스로 validate 하는 과정이있음
+	// 	return this.usersService.createUser({ nickname, email, password });
+	// }
 }
